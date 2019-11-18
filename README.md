@@ -11,6 +11,10 @@
 基本上就是可以抓出一些特定物件，人名、地名、機構名、專有名詞，之前也有抓過金額、日期、時間、金流渠道等。 這次的資料集則是只有人名、地名、機構名。
 
 為求方便，這次我就改成使用 [Kashgari](https://github.com/BrikerMan/Kashgari "Kashgari") 提供的ChineseDailyNerCorpus，安裝方式請看[官網](https://kashgari-zh.bmio.net/#_3 "官網")
+或是透過pip
+```
+pip install kashgari
+```
 
 ------------
 
