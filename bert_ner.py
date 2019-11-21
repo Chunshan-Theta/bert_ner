@@ -45,7 +45,7 @@ train_batch_size = 16
 eval_batch_size = 16
 predict_batch_size = 16
 learning_rate = 5e-5
-num_train_epochs = 100
+num_train_epochs = 5
 warmup_proportion = 0.1
 save_checkpoints_steps = 1000
 iterations_per_loop = 1000
@@ -61,7 +61,6 @@ class InputExample(object):
 
     def __init__(self, guid, text, label=None):
         """Constructs a InputExample.
-
         Args:
           guid: Unique id for the example.
           text_a: string. The untokenized text of the first sequence. For single
@@ -126,10 +125,48 @@ class DataProcessor(object):
                 labels.append(label)
             return lines
 
+class NerProcessor_from_file(DataProcessor):
+    def get_train_examples(self, data_dir):
+        return self._create_example(
+            self._read_data(os.path.join(data_dir, "for_train.txt")), "train"
+        )
+
+    def get_dev_examples(self, data_dir):
+        return self._create_example(
+            self._read_data(os.path.join(data_dir, "for_dev_and_test.txt")), "dev"
+        )
+
+    def get_test_examples(self,data_dir):
+        return self._create_example(
+            self._read_data(os.path.join(data_dir, "for_dev_and_test.txt")), "test")
+
+
+    def get_labels(self):
+        # prevent potential bug for chinese text mixed with english text
+        # return ["O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "[CLS]","[SEP]"]
+        # return ["O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "X","[CLS]","[SEP]"]
+        global traindata_dir
+        examples = self.get_train_examples(traindata_dir)
+        tags = ["[CLS]","[SEP]"]
+        for e in examples:
+            
+            for l in e.label.split(" "):
+                if l not in tags:
+                  tags.append(l)
+        return tags
+        #return ["o", "B-CHA", "I-CHA", "B-TIM", "I-TIM", "B-MON", "I-MON", "B-PER", "I-PER","[CLS]","[SEP]"]
+
+    def _create_example(self, lines, set_type):
+        examples = []
+        for (i, line) in enumerate(lines):
+            guid = "%s-%s" % (set_type, i)
+            text = tokenization.convert_to_unicode(line[1])
+            label = tokenization.convert_to_unicode(line[0])
+            examples.append(InputExample(guid=guid, text=text, label=label))
+        return examples
 class kashgariProcessor(DataProcessor):
     """
     from kashgari.corpus import ChineseDailyNerCorpus
-
     train_x, train_y = ChineseDailyNerCorpus.load_data('train')
     valid_x, valid_y = ChineseDailyNerCorpus.load_data('validate')
     test_x, test_y  = ChineseDailyNerCorpus.load_data('test')
@@ -491,7 +528,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 def main():
     tf.logging.set_verbosity(tf.logging.INFO)
     processors = {
-        "ner": NerProcessor,
+        "ner": NerProcessor_from_file,
         "kashgari": kashgariProcessor
     }
     if not do_train and not do_eval and not do_predict:
@@ -627,54 +664,9 @@ def main():
             is_training=False,
             drop_remainder=predict_drop_remainder)
         
-
-
-        
-
-        
-        
-
-
         result = estimator.predict(input_fn=predict_input_fn)
         output_predict_file = os.path.join(output_dir, "label_test.csv")
 
-
-
-
-
-
-
-        with open(output_predict_file,'w') as writer:
-            result_array=[]
-            for prediction in result:
-                for index,id in enumerate(prediction):
-                    if id!=0:
-                        result_array.append(id2label[id])
-            writer.write("\n".join(result_array))
-    print("result_array: ", result_array)
-    sample_array_text,sample_array_ans = [],[]
-    for example in predict_examples:
-      
-      temp_text = example.text
-      temp_label = example.label
-      sample_array_text.append("[CLS]")
-      sample_array_ans.append("[CLS]")
-      sample_array_text.extend(temp_text.split(" ")[:max_seq_length-2])
-      sample_array_ans.extend(temp_label.split(" ")[:max_seq_length-2])
-      sample_array_text.append("[SEP]")
-      sample_array_ans.append("[SEP]")
-
- 
-
-    # output
-    with open(os.path.join(output_dir, "test_samples_results.csv"), 'w') as writer:
-        output_array = [" "+"\t"+"預測" + '\t' + "正解"+ '\t' + "內容"]
-        for p, s, a in zip(result_array,sample_array_text,sample_array_ans):
-            token = "o" if a == p else "x"
-            output_array.append(token+ '\t'+p + '\t' + a+ '\t' + s)
-
-        writer.write("\n".join(output_array))
-    
 if __name__ == "__main__":
     
     main()
