@@ -31,6 +31,16 @@ sequence_length: 100
 epochs: 200
 ```
 
+個人使用
+
+```
+train_batch_size = 16
+eval_batch_size = 16
+predict_batch_size = 16
+learning_rate = 5e-5
+num_train_epochs = 5
+```
+
 但由於我沒有機器跑那麼久，這次提供的結果我只跑了很少的部分
 
 
