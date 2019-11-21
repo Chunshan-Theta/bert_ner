@@ -171,7 +171,7 @@ class kashgariProcessor(DataProcessor):
         # return ["O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "[CLS]","[SEP]"]
         # return ["O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "X","[CLS]","[SEP]"]
         examples = self.get_train_examples()
-        tags = ["[CLS]","[SEP]","X"]
+        tags = ["[CLS]","[SEP]"]
         
         for idx,e in enumerate(examples):
             temp_tags = e.label.split(" ")
