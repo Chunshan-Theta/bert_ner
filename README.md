@@ -24,9 +24,12 @@ pip install kashgari
 # 訓練部分
 ### 訓練參數
 這是Kashgari官方給的
+
+```
 batch_size: 2317
 sequence_length: 100
 epochs: 200
+```
 
 但由於我沒有機器跑那麼久，這次提供的結果我只跑了很少的部分
 
