@@ -199,8 +199,6 @@ data_set:  [['这 是 古 代 乱 世 中 的 白 日 梦 ： 在 山 间 清 �
 
 ### 評估
 
-我只跑了5個epoch 看別人的例子是要跑到100、甚至是200個epochs
-
 ```
 eval_f = 0.7191007
 eval_precision = 0.5988906
@@ -210,6 +208,8 @@ loss = 20.316486
 ```
 ------------
 # 預測
+
+有輸出一份結果 在 [bert_ner/output/test_samples_results.xlsx](https://github.com/Chunshan-Theta/bert_ner/blob/master/output/test_samples_results.xlsx)裡面
 
 | 模型預測  | 人工答案  | 內容 |
 | ------------ | ------------ | ------------ |
