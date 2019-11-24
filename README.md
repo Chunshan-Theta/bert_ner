@@ -301,3 +301,13 @@ loss = 20.316486
 |[SEP]|[SEP]|[SEP]
 |[CLS]|[CLS]|[CLS]
 
+# 額外
+去抓[這邊的資料](https://github.com/ProHiryu/bert-chinese-ner/tree/master/data)也跑跑看，評估的效果更好
+
+```
+eval_f = 0.8874113
+eval_precision = 0.8288026
+eval_recall = 0.9848753
+global_step = 6000
+loss = 6.452966
+```
