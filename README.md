@@ -302,7 +302,8 @@ loss = 20.316486
 |[CLS]|[CLS]|[CLS]
 
 # 額外
-去抓[這邊的資料](https://github.com/ProHiryu/bert-chinese-ner/tree/master/data)也跑跑看，評估的效果更好
+去抓[這邊的資料](https://github.com/ProHiryu/bert-chinese-ner/tree/master/data)
+改檔案名之後放到`data/`資料夾後也跑跑看，評估的效果更好
 
 ```
 eval_f = 0.8874113
