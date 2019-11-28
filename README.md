@@ -303,12 +303,13 @@ loss = 20.316486
 
 # 額外
 去抓[這邊的資料](https://github.com/ProHiryu/bert-chinese-ner/tree/master/data)
-改檔案名之後放到`data/`資料夾後也跑跑看，評估的效果更好
+改檔案名之後放到`data/`資料夾後也跑跑看，可能因為，評估的效果更好
 
 ```
-eval_f = 0.8874113
-eval_precision = 0.8288026
-eval_recall = 0.9848753
-global_step = 6000
-loss = 6.452966
+eval_f = 0.9072733
+eval_precision = 0.85459185
+eval_recall = 0.9898753
+global_step = 23745
+loss = 6.551677
+
 ```
